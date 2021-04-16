@@ -1,0 +1,11 @@
+# dags/
+logs/
+plugins/
+**/[lv]env/
+**/out/
+
+.vscode/settings.json
+
+scrapy/requirements.*
+
+**/__pycache__/

@@ -1,0 +1,1 @@
+docker build -f Dockerfile-apache-airflow-2_0_1-fix -t 2.0.1-fix .
