@@ -1,0 +1,29 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: sacorona
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - airflow_data_volume:/var/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8880:8080
+
+volumes:
+  postgres_data:
+    name: postgres_data
+
+  airflow_data_volume:
+    name: "airflow_data_volume"
