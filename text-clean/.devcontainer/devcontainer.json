@@ -11,7 +11,7 @@
 
 	"containerEnv": {
 		"SCRAPY_DATA_PATH": "/var/data/sacorona/images",
-		"POSTGRES_HOST_NAME": "data-store_db_1",
+		"POSTGRES_HOST_NAME": "covid-pipeline_db_1",
 		"POSTGRES_USER_NAME": "postgres",
 		"POSTGRES_PASSWORD": "example"
 	},
@@ -30,7 +30,7 @@
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [ 
 		//"--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" 
-		"--network=data-store_default",
+		"--network=covid-pipeline_default",
 	],
 
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.

@@ -91,6 +91,17 @@ services:
       retries: 50
     restart: always
 
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: sacorona
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - airflow_data_volume:/var/data
+
   airflow-webserver:
     <<: *airflow-common
     command: webserver
@@ -123,21 +134,12 @@ services:
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
 
-  flower:
-    <<: *airflow-common
-    command: celery flower
-    ports:
-      - 5555:5555
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    restart: always
-
 
 volumes:
   postgres-db-volume:
+
+  postgres_data:
+    name: postgres_data
 
   airflow_data_volume:
     name: "airflow_data_volume"
