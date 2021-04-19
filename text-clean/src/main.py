@@ -1,14 +1,31 @@
 import os
 import re
 
+def try_parse_int(s, base=10, val=None):
+	try:
+		return int(s, base)
+	except ValueError:
+		return val
+
+def try_parse_float(s, base=10, val=None):
+	try:
+		return float(s)
+	except ValueError:
+		return val
+
 def process(path, o):
 	output_path = re.sub("\..*\.txt", ".csv", path)
 
 	with open(path, "r") as f:
 		for line in f.readlines():
-			m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+([\d.,]+)$", line)
+			m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+(\d.+)$", line)
 			if m is not None:
-				print("\t".join([m[1], m[2], m[3].replace(",", "."), path]), file = o)
+				print("\t".join([
+					m[1], 
+					str(try_parse_int(m[2], val="")), 
+					str(try_parse_float(m[3].replace(",", "."), val="")), 
+					path
+				]), file = o)
 
 def process_sub_directories(root_path):
 	with open(os.path.join(root_path, "combined.tsv"), "w") as o:
@@ -26,4 +43,4 @@ def main():
 	process_sub_directories(root_path)
 
 if __name__ == "__main__":
-    main()
+		main()
