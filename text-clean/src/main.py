@@ -37,10 +37,40 @@ def process_sub_directories(root_path):
 						if m is not None:
 							process(f.path, o)
 
+import psycopg2
+def load_into_db():
+	try:
+		conn = psycopg2.connect(
+			host=os.environ['POSTGRES_HOST_NAME'],
+			database="sacorona",
+			user=os.environ['POSTGRES_USER_NAME'],
+			password=os.environ['POSTGRES_PASSWORD']
+		)
+
+		# create a cursor
+		cur = conn.cursor()
+
+		print(os.getcwd())
+				
+		# execute a statement
+		print('Running load')
+		cur.execute(open("src/raw_data_load.sql", "r").read())
+		
+		# close the communication with the PostgreSQL
+		cur.close()
+	except (Exception, psycopg2.DatabaseError) as error:
+		print(error)
+	finally:
+		if conn is not None:
+			conn.close()
+			print('Database connection closed.')
+
 def main():
 	root_path = os.environ['SCRAPY_DATA_PATH'] = os.environ['SCRAPY_DATA_PATH']
 
 	process_sub_directories(root_path)
+
+	load_into_db()
 
 if __name__ == "__main__":
 		main()

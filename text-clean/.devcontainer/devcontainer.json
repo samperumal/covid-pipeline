@@ -10,7 +10,10 @@
 	},
 
 	"containerEnv": {
-		"SCRAPY_DATA_PATH": "/var/data/sacorona/images"
+		"SCRAPY_DATA_PATH": "/var/data/sacorona/images",
+		"POSTGRES_HOST_NAME": "data-store_db_1",
+		"POSTGRES_USER_NAME": "postgres",
+		"POSTGRES_PASSWORD": "example"
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
@@ -19,13 +22,16 @@
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
 	// "postCreateCommand": "apt-get update && apt-get install -y curl",
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+	"runArgs": [ 
+		//"--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" 
+		"--network=data-store_default",
+	],
 
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	"mounts": [ 

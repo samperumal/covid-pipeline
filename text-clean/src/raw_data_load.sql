@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS raw_data;
 CREATE TABLE raw_data(
 	province VARCHAR,
 	total INT,
-	[percent] FLOAT NULL,
+	"percent" FLOAT NULL,
 	source VARCHAR
 );
 
