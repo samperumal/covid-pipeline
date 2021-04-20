@@ -1,7 +1,0 @@
-version: "3.9"
-services:
-  python-cleaner:
-    build: .
-    environment:
-      SCRAPY_DATA_DIR: "/var/data/sacorona/images/"
-    command: sleep infinity

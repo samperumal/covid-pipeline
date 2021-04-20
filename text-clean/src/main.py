@@ -20,11 +20,13 @@ def process(path, o):
 		for line in f.readlines():
 			m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+(\d.+)$", line)
 			if m is not None:
+				d = re.search(r"/var/data/sacorona/images/(.+)/.+", path)
 				print("\t".join([
 					m[1], 
 					str(try_parse_int(m[2], val="")), 
 					str(try_parse_float(m[3].replace(",", "."), val="")), 
-					path
+					path,
+					d[1]
 				]), file = o)
 
 def process_sub_directories(root_path):
