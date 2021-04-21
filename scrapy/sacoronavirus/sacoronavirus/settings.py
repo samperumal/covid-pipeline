@@ -66,6 +66,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'sacoronavirus.pipelines.SacoronavirusPipeline': 1,
+   'sacoronavirus.pipelines.HtmlTablePipeline': 300
 }
 FILES_STORE  = './out/sacorona/images'
 

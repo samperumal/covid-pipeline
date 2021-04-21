@@ -7,6 +7,9 @@ import scrapy
 
 
 class SacoronavirusItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+	# define the fields for your item here like:
+	file_urls = scrapy.Field()
+	files = scrapy.Field()
+	out_dir = scrapy.Field()
+	table_html = scrapy.Field()
+	pass

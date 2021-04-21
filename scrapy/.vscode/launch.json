@@ -1,0 +1,17 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Crawl with scrapy",
+			"type": "python",
+			"request": "launch",
+			"module": "scrapy",
+			"cwd": "${workspaceFolder}/sacoronavirus",
+			"args": [
+				"crawl",
+				"updates"
+			],
+			"console": "internalConsole"
+		}
+	]
+}

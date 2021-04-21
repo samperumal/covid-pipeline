@@ -4,16 +4,13 @@ import datetime
 import os
 import dateutil.parser
 
-class MyItem(scrapy.Item):
-		# ... other item fields ...
-		file_urls = scrapy.Field()
-		files = scrapy.Field()
-		out_dir = scrapy.Field()
+from .. import items
+
 
 class UpdatesSpider(scrapy.Spider):
 		name = "updates"
 		start_urls = [
-				'https://sacoronavirus.co.za/category/press-releases-and-notices/'
+				'https://sacoronavirus.co.za/category/press-releases-and-notices/page/20/'
 		]
 
 		def parse(self, response):
@@ -23,14 +20,22 @@ class UpdatesSpider(scrapy.Spider):
 			# yield from response.follow_all(response.css("a.pagination-next"), callback=self.parse)
 
 		def parse_update(self, response):
+			item = items.SacoronavirusItem()
+			
 			date = response.css('article.post div.fusion-meta-info span.rich-snippet-hidden::text').get()
 			dt = dateutil.parser.isoparse(date)
 
 			outdir = f'{dt.strftime("%d %B %Y")}'
 			
 			file_urls = response.css('article.post img::attr(src)').getall()
+
+			table = response.css('div.post-content table.NormalTable')
+
+			if table is not None:
+				item['table_html'] = table
+
+				self.logger.info('Table: %s' % outdir)
 			
-			item = MyItem()
 			item['out_dir'] = outdir
 			item['file_urls'] = [response.urljoin(file_url) for file_url in file_urls]
 			yield item
