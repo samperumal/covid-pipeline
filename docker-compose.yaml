@@ -102,6 +102,15 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - airflow_data_volume:/var/data
 
+  text-web:
+    image: httpd:2.4
+    volumes:
+      - airflow_data_volume:/usr/local/apache2/htdocs/data
+      - ./text-web/public-html/:/usr/local/apache2/htdocs/
+    ports:
+      - 8000:80
+
+
   airflow-webserver:
     <<: *airflow-common
     command: webserver
