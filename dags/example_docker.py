@@ -65,6 +65,38 @@ t4 = DockerOperator(
     auto_remove=True
 )
 
+t5 = DockerOperator(
+    api_version='1.21',
+    docker_url="unix://var/run/docker.sock",
+    image='sacorona-clean:latest',
+    volumes = ["airflow_data_volume:/var/data"],
+    network_mode='bridge',
+    task_id='python-clean',
+    environment={
+        "SCRAPY_DATA_PATH": "/var/data/sacorona/images",
+		"POSTGRES_HOST_NAME": "db",
+		"POSTGRES_USER_NAME": "postgres",
+		"POSTGRES_PASSWORD": "example"
+    },
+    command=["python", "/opt/main.py"],
+    dag=dag,
+    auto_remove=True
+)
+
+t6 = DockerOperator(
+    api_version='1.21',
+    docker_url="unix://var/run/docker.sock",
+    image='sacorona-process:latest',
+    volumes = ["airflow_data_volume:/var/data"],
+    network_mode='bridge',
+    task_id='r-analysis',
+    command=["r", "/opt/main.R"],
+    dag=dag,
+    auto_remove=True
+)
+
 
 t1 >> t3
 t3 >> t4
+t4 >> t5
+t5 >> t6

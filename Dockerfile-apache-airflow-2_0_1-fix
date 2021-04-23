@@ -1,6 +1,6 @@
 FROM apache/airflow:2.0.1
 USER root
-RUN touch /var/run/docker.sock && chmod 777 /var/run/docker.sock
+RUN touch /var/run/docker.sock && chmod 777 /var/run/docker.sock && chgrp airflow /var/run/docker.sock
 RUN apt-get update && apt-get install -y docker.io
 RUN usermod -aG docker airflow
 RUN /usr/local/bin/python -m pip install --upgrade pip
