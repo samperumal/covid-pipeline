@@ -13,7 +13,7 @@ def try_parse_float(s, base=10, val=None):
 	except ValueError:
 		return val
 
-def process(path, o):
+def process_txt(path, o):
 	output_path = re.sub("\..*\.txt", ".csv", path)
 
 	with open(path, "r") as f:
@@ -29,6 +29,23 @@ def process(path, o):
 					d[1]
 				]), file = o)
 
+def process_table(path, o):
+	with open(path, "r") as f:
+		for line in f.readlines():
+			# m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+(\d.+)$", line)
+			parts = line.split("\t")
+			d = re.search(r"/var/data/sacorona/images/(.+)/.+", path)
+			if parts[0].lower().strip() not in ["eastern cape",
+"free state",
+"gauteng",
+"kwazulu-natal",
+"limpopo",
+"mpumalanga",
+"north west",
+"northern cape",
+"western cape"]: continue
+			print(line.strip().replace(",", ".") + f"\t%s\t%s" % (path, d[1]), file = o)
+
 def process_sub_directories(root_path):
 	with open(os.path.join(root_path, "combined.tsv"), "w") as o:
 		for d in os.scandir(root_path):
@@ -37,7 +54,11 @@ def process_sub_directories(root_path):
 					if f.is_file() and f.name.lower().endswith(".txt"):
 						m = re.search("-table-1\..*\.txt$", f.path)
 						if m is not None:
-							process(f.path, o)
+							process_txt(f.path, o)
+					if f.is_file() and f.name.lower().endswith(".tsv"):
+						m = re.search("table-1\.tsv$", f.path)
+						if m is not None:
+							process_table(f.path, o)
 
 import psycopg2
 def load_into_db():
@@ -72,7 +93,7 @@ def main():
 
 	process_sub_directories(root_path)
 
-	load_into_db()
+	# load_into_db()
 
 if __name__ == "__main__":
 		main()
