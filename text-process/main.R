@@ -40,4 +40,26 @@ rownames(dd) = NULL
 
 write.csv(file = "/var/data/sacorona/images/analysis.csv", x = dd, row.names = FALSE)
 
-print(rownames(dd))
+require("ggplot2")
+
+for (p in c(
+  "North West",
+  "Northern Cape",
+  "Western Cape",
+  "Eastern Cape",
+  "Free State",
+  "Gauteng",
+  "KwaZulu-Natal",
+  "Limpopo",
+  "Mpumalanga",
+  "North West"
+)) {
+
+p1 <- ggplot(data = dd[dd["province"] == p, ], aes(x = date, y = total, color = province)) +
+      geom_point(stat = "identity") +
+      labs(title = paste("Coronavirus cases in ", p),
+           subtitle = "2nd Wave",
+           x = "Date", y = "Total cases")
+
+ggsave(paste("/var/data/sacorona/images/", p, ".png", sep =""), plot = p1)
+}
