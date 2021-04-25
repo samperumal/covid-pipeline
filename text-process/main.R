@@ -1,15 +1,16 @@
 dt <- read.table("/var/data/sacorona/images/combined.tsv",
   header = FALSE,
-  sep = "\t"
+  sep = "\t",
+  strip.white = TRUE
 )
 
 dt[, "date"] <- as.Date(dt[, "V5"], "%d %B %Y")
 
 ds <- as.data.frame(dt[, c("province" = "V1", "V2", "date")])
 
-dd <- ds[order(ds["V1"], ds["date"], dt["V2"]), ]
+dq <- ds[order(ds["V1"], ds["date"], dt["V2"]), ]
 
-dd <- dd[dd$V1 %in% c(
+dd <- dq[(dq$V1 %in% c(
   "North West",
   "Northern Cape",
   "Western Cape",
@@ -20,7 +21,7 @@ dd <- dd[dd$V1 %in% c(
   "Limpopo",
   "Mpumalanga",
   "North West"
-), ]
+)), ]
 
 colnames(dd) <- c("province", "total", "date")
 
