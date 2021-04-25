@@ -39,12 +39,10 @@ dag = DAG(
     start_date=days_ago(0),
 )
 
-t1 = BashOperator(task_id='print_date', bash_command='date', dag=dag)
-
 t3 = DockerOperator(
     api_version='1.21',
     docker_url="unix://var/run/docker.sock",
-    image='sacorona:latest',
+    image='sacorona/scrapy:latest',
     volumes = ["airflow_data_volume:/opt/scrapy/sacoronavirus/out"],
     network_mode='bridge',
     task_id='scrapy',
@@ -56,7 +54,7 @@ t3 = DockerOperator(
 t4 = DockerOperator(
     api_version='1.21',
     docker_url="unix://var/run/docker.sock",
-    image='tesseractshadow/tesseract4re:latest',
+    image='sacorona/tesseract:latest',
     volumes = ["airflow_data_volume:/home/work/data"],
     network_mode='bridge',
     task_id='tesseract',
@@ -68,7 +66,7 @@ t4 = DockerOperator(
 t5 = DockerOperator(
     api_version='1.21',
     docker_url="unix://var/run/docker.sock",
-    image='sacorona-clean:latest',
+    image='sacorona/text-clean:latest',
     volumes = ["airflow_data_volume:/var/data"],
     network_mode='bridge',
     task_id='python-clean',
@@ -86,7 +84,7 @@ t5 = DockerOperator(
 t6 = DockerOperator(
     api_version='1.21',
     docker_url="unix://var/run/docker.sock",
-    image='sacorona-process:latest',
+    image='sacorona/text-process:latest',
     volumes = ["airflow_data_volume:/var/data"],
     network_mode='bridge',
     task_id='r-analysis',
@@ -96,7 +94,4 @@ t6 = DockerOperator(
 )
 
 
-t1 >> t3
-t3 >> t4
-t4 >> t5
-t5 >> t6
+t3 >> t4 >> t5 >> t6
