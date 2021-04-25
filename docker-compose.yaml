@@ -143,6 +143,11 @@ services:
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
 
+  # Container to permission docker socket to allow communication with host daemon
+  airflow-docker-sock:
+    <<: *airflow-common
+    entrypoint: chmod 777 /var/run/docker.sock
+    user: root
 
 volumes:
   postgres-db-volume:
