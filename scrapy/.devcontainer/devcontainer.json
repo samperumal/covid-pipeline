@@ -32,8 +32,7 @@
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	"mounts": [ 
 		// "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" 
-		"source=airflow_data_volume,target=/var/data",
-		"source=airflow_data_volume,target=/workspaces/covid-pipeline/scrapy/sacoronavirus/out"
+		"source=airflow_data_volume,target=/workspaces/covid-pipeline/scrapy/sacoronavirus/sacoronavirus/out"
 	],
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.

@@ -45,7 +45,7 @@ class HtmlTablePipeline:
 						for tr in table.css('tr'):
 							line = "\t".join(tr.css('td span::text').getall()) + "\n"
 							file.write(line)
-					spider.logger.info('Table: %s' % path)
+					# spider.logger.info('Table: %s' % path)
 					i += 1
 				pass
 			return item
