@@ -33,6 +33,8 @@ def process_table(path, o):
 	with open(path, "r") as f:
 		for line in f.readlines():
 			# m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+(\d.+)$", line)
+			line = line.strip()#.replace(",", ".")
+			line = re.sub(r"(\d)\W(\d)", "$1$2", line)
 			parts = line.split("\t")
 			d = re.search(r"/var/data/sacorona/images/(.+)/.+", path)
 			if parts[0].lower().strip() not in ["eastern cape",
@@ -44,7 +46,10 @@ def process_table(path, o):
 "north west",
 "northern cape",
 "western cape"]: continue
-			print(line.strip().replace(",", ".") + f"\t%s\t%s" % (path, d[1]), file = o)
+			while len(parts) < 3: 
+				parts.append("0")
+				line += "\t0"
+			print("\t".join([x for x in parts[0:3]]) + f"\t%s\t%s" % (path, d[1]), file = o)
 
 def process_sub_directories(root_path):
 	with open(os.path.join(root_path, "combined.tsv"), "w") as o:

@@ -5,10 +5,11 @@ dt <- read.table("/var/data/sacorona/images/combined.tsv",
 )
 
 dt[, "date"] <- as.Date(dt[, "V5"], "%d %B %Y")
+dt[, "total"] <- as.integer(dt[, "V2"])
 
-ds <- as.data.frame(dt[, c("province" = "V1", "V2", "date")])
+ds <- as.data.frame(dt[, c("province" = "V1", "total", "date")])
 
-dq <- ds[order(ds["V1"], ds["date"], dt["V2"]), ]
+dq <- ds[order(ds["V1"], ds["date"], dt["total"]), ]
 
 dd <- dq[(dq$V1 %in% c(
   "North West",
@@ -21,7 +22,7 @@ dd <- dq[(dq$V1 %in% c(
   "Limpopo",
   "Mpumalanga",
   "North West"
-)), ]
+)) & !is.na(dq$total), ]
 
 colnames(dd) <- c("province", "total", "date")
 
