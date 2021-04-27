@@ -31,11 +31,30 @@ def process_txt(path, o):
 
 def process_table(path, o):
 	with open(path, "r") as f:
+		header = True
+		remove_new = False
+		sum_parts = False
 		for line in f.readlines():
 			# m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+(\d.+)$", line)
 			line = line.strip()#.replace(",", ".")
-			line = re.sub(r"(\d)\W(\d)", "$1$2", line)
-			parts = line.split("\t")
+			line = re.sub(r"(\d)\W(\d)", r"\1\2", line)
+			parts = [x.strip() for x in line.split("\t")]
+			if header:
+				header = False
+				if len(parts) <= 1:
+					return
+				elif parts[1].startswith("New"): 
+					remove_new = True
+				elif parts == ["Province", "Deaths", "Recoveries", "Active cases"]:
+					sum_parts = True
+
+				continue
+			
+			if remove_new:
+				parts = parts[0:1] + parts[2:]
+			elif sum_parts:
+				parts = parts[0:1] + [sum([int(x) for x in parts[2:]])]
+
 			d = re.search(r"/var/data/sacorona/images/(.+)/.+", path)
 			if parts[0].lower().strip() not in ["eastern cape",
 "free state",
@@ -49,7 +68,7 @@ def process_table(path, o):
 			while len(parts) < 3: 
 				parts.append("0")
 				line += "\t0"
-			print("\t".join([x for x in parts[0:3]]) + f"\t%s\t%s" % (path, d[1]), file = o)
+			print("\t".join([str(x) for x in parts[0:3]]) + f"\t%s\t%s" % (path, d[1]), file = o)
 
 def process_sub_directories(root_path):
 	with open(os.path.join(root_path, "combined.tsv"), "w") as o:
