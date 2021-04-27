@@ -27,6 +27,10 @@ class UpdatesSpider(scrapy.Spider):
 			dt = dateutil.parser.isoparse(date)
 
 			outdir = f'{dt.strftime("%d %B %Y")}'
+
+			if os.path.isdir(outdir):
+				return
+				
 			try:
 				os.mkdir(outdir)
 			except OSError as error:
