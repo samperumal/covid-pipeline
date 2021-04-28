@@ -20,21 +20,23 @@ class UpdatesSpider(scrapy.Spider):
 			yield from response.follow_all(response.css("a.pagination-next"), callback=self.parse)
 
 		def parse_update(self, response):
-			self.logger.debug(response.url)
+			# self.logger.debug("Response Url: " + response.url)
 			item = items.SacoronavirusItem()
 			
 			date = response.css('article.post div.fusion-meta-info span.rich-snippet-hidden::text').get()
 			dt = dateutil.parser.isoparse(date)
 
 			outdir = f'{dt.strftime("%d %B %Y")}'
+			self.logger.debug("Out Dir: " + outdir)
 
-			if os.path.isdir(outdir):
-				return
-				
-			try:
-				os.mkdir(outdir)
-			except OSError as error:
-				pass
+			abs_dir = os.path.join(self.settings['FILES_STORE'], outdir)
+
+			if not os.path.isdir(abs_dir):
+				try:
+					self.logger.info("Creating dir: " + outdir)
+					os.mkdir(abs_dir)
+				except OSError as error:
+					pass
 			
 			file_urls = response.css('article.post img::attr(src)').getall()
 

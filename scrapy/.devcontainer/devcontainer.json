@@ -17,6 +17,9 @@
 		"ms-python.python"
 	],
 
+	"workspaceMount": "source=${localWorkspaceFolder},target=/opt,type=bind,consistency=delegated",
+	"workspaceFolder": "/opt",
+
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
 
@@ -32,7 +35,7 @@
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	"mounts": [ 
 		// "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" 
-		"source=airflow_data_volume,target=/workspaces/covid-pipeline/scrapy/sacoronavirus/sacoronavirus/out"
+		"source=sacorona_data_volume,target=/opt/sacoronavirus/out"
 	],
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.

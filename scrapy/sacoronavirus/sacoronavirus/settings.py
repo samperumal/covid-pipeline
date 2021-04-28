@@ -68,7 +68,7 @@ ITEM_PIPELINES = {
    'sacoronavirus.pipelines.SacoronavirusPipeline': 1,
    'sacoronavirus.pipelines.HtmlTablePipeline': 300
 }
-FILES_STORE  = './out/sacorona/images'
+FILES_STORE  = '/var/data'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

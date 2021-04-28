@@ -1,11 +1,11 @@
 FROM python:3.8-slim
 
-COPY requirements.txt /opt/scrapy/requirements.txt
+COPY requirements.txt /opt/requirements.txt
 
-RUN pip install -r /opt/scrapy/requirements.txt
+RUN pip install -r /opt/requirements.txt
 
-COPY sacoronavirus/ /opt/scrapy/sacoronavirus/
+COPY sacoronavirus/ /opt/sacoronavirus/
 
-WORKDIR /opt/scrapy/sacoronavirus
+WORKDIR /opt/sacoronavirus
 
 CMD ["scrapy", "crawl", "updates"]
