@@ -1,4 +1,4 @@
-dt <- read.table("/var/data/sacorona/images/combined.tsv",
+dt <- read.table("/var/data/combined.tsv",
   header = FALSE,
   sep = "\t",
   strip.white = TRUE
@@ -32,15 +32,20 @@ dd[, "diff2"] <- 0
 trow <- 1
 for (srow in 2:nrow(dd)) {
   if (dd[srow, "province"] == dd[srow - 1, "province"]) {
-    dd[srow, "diff"] <- dd[srow, "total"] - dd[srow - 1, "total"]
-    dd[srow, "diff2"] <- dd[srow, "diff"] - dd[srow - 1, "diff"]
-    trow <- trow + 1
+    diff <- dd[srow, "total"] - dd[srow - 1, "total"]
+    if (TRUE || !(abs(diff / dd[srow, "total"]) > 0.1)) {
+      dd[srow, "diff"] <- diff
+      dd[srow, "diff2"] <- dd[srow, "diff"] - dd[srow - 1, "diff"]
+      trow <- trow + 1
+    }
   }
 }
 
 rownames(dd) = NULL
 
-write.csv(file = "/var/data/sacorona/images/analysis.csv", x = dd, row.names = FALSE)
+write.csv(file = "/var/data/analysis.csv", x = dd, row.names = FALSE)
+
+dir.create("/var/data/images")
 
 require("ggplot2")
 
@@ -63,5 +68,5 @@ p1 <- ggplot(data = dd[dd["province"] == p, ], aes(x = date, y = total, color = 
            subtitle = "2nd Wave",
            x = "Date", y = "Total cases")
 
-ggsave(paste("/var/data/sacorona/images/", p, ".png", sep =""), plot = p1)
+ggsave(paste("/var/data/images/", p, ".png", sep =""), plot = p1)
 }

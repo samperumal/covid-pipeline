@@ -36,6 +36,8 @@ RUN r /tmp/init.R
 
 COPY main.R /opt/
 
+CMD ["r", "/opt/main.R"]
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update \
 #     && export DEBIAN_FRONTEND=noninteractive \
