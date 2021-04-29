@@ -14,13 +14,14 @@ def try_parse_float(s, base=10, val=None):
 		return val
 
 def process_txt(path, o):
+	print("Processing text: ", path)
 	output_path = re.sub("\..*\.txt", ".csv", path)
 
 	with open(path, "r") as f:
 		for line in f.readlines():
 			m = re.search(r"^([a-zA-Z\W]+)\W+(\d+)\W+(\d.+)$", line)
 			if m is not None:
-				d = re.search(r"/var/data/sacorona/images/(.+)/.+", path)
+				d = re.search(r"/var/data/(.+)/.+", path)
 				print("\t".join([
 					m[1], 
 					str(try_parse_int(m[2], val="")), 
@@ -30,6 +31,7 @@ def process_txt(path, o):
 				]), file = o)
 
 def process_table(path, o):
+	print("Processing table: ", path)
 	with open(path, "r") as f:
 		header = True
 		remove_new = False
@@ -55,7 +57,7 @@ def process_table(path, o):
 			elif sum_parts:
 				parts = parts[0:1] + [sum([int(x) for x in parts[2:]])]
 
-			d = re.search(r"/var/data/sacorona/images/(.+)/.+", path)
+			d = re.search(r"/var/data/(.+)/.+", path)
 			if parts[0].lower().strip() not in ["eastern cape",
 "free state",
 "gauteng",
@@ -71,6 +73,7 @@ def process_table(path, o):
 			print("\t".join([str(x) for x in parts[0:3]]) + f"\t%s\t%s" % (path, d[1]), file = o)
 
 def process_sub_directories(root_path):
+	print("Output file: ", os.path.join(root_path, "combined.tsv"))
 	with open(os.path.join(root_path, "combined.tsv"), "w") as o:
 		for d in os.scandir(root_path):
 			if d.is_dir():
@@ -113,7 +116,7 @@ def load_into_db():
 			print('Database connection closed.')
 
 def main():
-	root_path = os.environ['SCRAPY_DATA_PATH'] = os.environ['SCRAPY_DATA_PATH']
+	root_path = "/var/data" #os.environ['SCRAPY_DATA_PATH'] = os.environ['SCRAPY_DATA_PATH']
 
 	process_sub_directories(root_path)
 

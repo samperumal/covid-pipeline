@@ -4,22 +4,20 @@
 	"name": "Python Cleaner Dev",
 	"dockerFile": "../Dockerfile",
 
-	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"terminal.integrated.shell.linux": null
-	},
-
 	"containerEnv": {
-		"SCRAPY_DATA_PATH": "/var/data/sacorona/images",
-		"POSTGRES_HOST_NAME": "covid-pipeline_db_1",
-		"POSTGRES_USER_NAME": "postgres",
-		"POSTGRES_PASSWORD": "example"
+		// "SCRAPY_DATA_PATH": "/var/data/sacorona/images",
+		// "POSTGRES_HOST_NAME": "covid-pipeline_db_1",
+		// "POSTGRES_USER_NAME": "postgres",
+		// "POSTGRES_PASSWORD": "example"
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python"
 	],
+
+	"workspaceMount": "source=${localWorkspaceFolder}/src,target=/opt,type=bind,consistency=delegated",
+	"workspaceFolder": "/opt",
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
@@ -30,13 +28,13 @@
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [ 
 		//"--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" 
-		"--network=covid-pipeline_default",
+		// "--network=covid-pipeline_default",
 	],
 
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	"mounts": [ 
 		// "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" 
-		"source=airflow_data_volume,target=/var/data"
+		"source=sacorona_data_volume,target=/var/data"
 	],
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
