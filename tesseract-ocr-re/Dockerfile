@@ -12,4 +12,4 @@ WORKDIR /home/work
 
 COPY parse.sh /home/work
 
-CMD ["/home/work/parse.sh", "data/sacorona/images"]
+CMD ["/home/work/parse.sh", "/var/data"]
