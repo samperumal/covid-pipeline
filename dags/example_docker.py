@@ -58,7 +58,6 @@ t4 = DockerOperator(
     volumes = ["airflow_data_volume:/var/data"],
     network_mode='bridge',
     task_id='tesseract',
-    # command=["/home/work/parse.sh", "data/sacorona/images"],
     dag=dag,
     auto_remove=True
 )
@@ -71,12 +70,10 @@ t5 = DockerOperator(
     network_mode='bridge',
     task_id='python-clean',
     environment={
-        "SCRAPY_DATA_PATH": "/var/data/sacorona/images",
 		"POSTGRES_HOST_NAME": "db",
 		"POSTGRES_USER_NAME": "postgres",
 		"POSTGRES_PASSWORD": "example"
     },
-    command=["python", "/opt/main.py"],
     dag=dag,
     auto_remove=True
 )
@@ -88,7 +85,6 @@ t6 = DockerOperator(
     volumes = ["airflow_data_volume:/var/data"],
     network_mode='bridge',
     task_id='r-analysis',
-    command=["r", "/opt/main.R"],
     dag=dag,
     auto_remove=True
 )
