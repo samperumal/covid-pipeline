@@ -11,5 +11,6 @@ RUN mkdir /home/work
 WORKDIR /home/work
 
 COPY parse.sh /home/work
+RUN chmod +x /home/work/parse.sh
 
 CMD ["/home/work/parse.sh", "/var/data"]
