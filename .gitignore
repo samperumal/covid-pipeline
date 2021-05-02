@@ -9,3 +9,4 @@ plugins/
 scrapy/requirements.*
 
 **/__pycache__/
+azure-blob/src/public-html/img

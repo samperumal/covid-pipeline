@@ -1,9 +1,8 @@
 FROM python:3.8-slim
 
-RUN python -m pip install pip --upgrade
-
-COPY requirements.txt /opt
-RUN pip install -r /opt/requirements.txt
+COPY requirements.txt /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+   && rm -rf /tmp/pip-tmp
 
 COPY ./src/ /opt/
 
