@@ -37,7 +37,7 @@ RUN r /tmp/init.R
 COPY *.R /opt/
 
 ENTRYPOINT ["r"]
-CMD ["/opt/main.R"]
+CMD ["/opt/main.R", "/opt/secondary.R"]
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update \
