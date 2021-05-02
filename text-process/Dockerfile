@@ -34,9 +34,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 COPY init.R /tmp/init.R
 RUN r /tmp/init.R
 
-COPY main.R /opt/
+COPY *.R /opt/
 
-CMD ["r", "/opt/main.R"]
+ENTRYPOINT ["r"]
+CMD ["/opt/main.R"]
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update \

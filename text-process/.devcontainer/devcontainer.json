@@ -34,7 +34,7 @@
 	// Uncomment to use Docker from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	"mounts": [ 
 		// "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" 
-		"source=airflow_data_volume,target=/var/data"
+		"source=sacorona_data_volume,target=/var/data"
 	],
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
