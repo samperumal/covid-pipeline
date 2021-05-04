@@ -46,10 +46,10 @@ def parse_log():
 
 	print(req_list[0:5])
 
-	os.makedirs("/var/data/download", exist_ok=True)
-
 	with open("/var/data/download/small_log.json", "w") as output_file:
 		json.dump(req_list, output_file, indent = 2)
+
+os.makedirs("/var/data/download", exist_ok=True)
 
 download_log()
 parse_log()
