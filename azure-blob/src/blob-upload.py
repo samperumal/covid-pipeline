@@ -18,6 +18,11 @@ for f in os.scandir("/var/data"):
 	if f.is_file():
 		files.append([f.path, f"data/%s" % f.name, "text/" + os.path.splitext(f.name)[1][1:]])
 
+for f in os.scandir("/var/data/download"):
+	if f.is_file():
+		files.append([f.path, f"data/%s" % f.name, "text/" + os.path.splitext(f.name)[1][1:]])
+
+
 files.append(["public-html/index.html", "index.html", "text/html"])
 
 for f in files:
