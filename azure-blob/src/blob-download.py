@@ -65,6 +65,7 @@ def parse_log(blob_name = "complete-log.json"):
 
 	with open(os.path.join(folder_path, "small_log.json"), "w") as output_file:
 		json.dump(req_list, output_file, indent = 2)
+		output_file.write("\n")
 
 os.makedirs(folder_path, exist_ok=True)
 
