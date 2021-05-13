@@ -12,7 +12,7 @@ BOT_NAME = 'sacoronavirus'
 SPIDER_MODULES = ['sacoronavirus.spiders']
 NEWSPIDER_MODULE = 'sacoronavirus.spiders'
 
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
