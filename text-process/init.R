@@ -1,2 +1,5 @@
 install.packages("tidyverse")
 install.packages("ggplot2")
+install.packages("svglite")
+install.packages("hrbrthemes")
+install.packages("RJSONIO", dependencies = TRUE)
