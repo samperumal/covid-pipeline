@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "containerGroupName": {
+      "type": "string",
+      "defaultValue": "covidpipeline",
+      "metadata": {
+        "description": "Container Group name."
+      }
+    }
+  },
+  "variables": {
+    "container1name": "covidpipeline-scrapy",
+    "container1image": "samperumal/covidpipeline-scrapy:latest"
+  },
+  "resources": [
+    {
+      "name": "[parameters('containerGroupName')]",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2019-12-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "containers": [
+          {
+            "name": "[variables('container1name')]",
+            "properties": {
+              "image": "[variables('container1image')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 0.5
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/data",
+                  "name": "sacorona-data-volume"
+                }
+              ],
+              "ports": [
+                {
+                  "port": 80, "protocol": "TCP"
+                }
+              ]
+            }
+          }
+        ],
+        "osType": "Linux",
+        "ipAddress": {
+          "type": "Public",
+          "ports": [
+            {
+              "protocol": "TCP",
+              "port": 80
+            }
+          ]
+        },
+        "volumes": [
+          {
+            "name": "sacorona-data-volume",
+            "emptyDir": {}
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "containerIPv4Address": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('containerGroupName'))).ipAddress.ip]"
+    }
+  }
+}

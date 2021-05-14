@@ -12,10 +12,10 @@ BOT_NAME = 'sacoronavirus'
 SPIDER_MODULES = ['sacoronavirus.spiders']
 NEWSPIDER_MODULE = 'sacoronavirus.spiders'
 
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'INFO'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'sacoronavirus (+http://www.yourdomain.com)'
+USER_AGENT = 'sacoronavirus (+http://datacartographer.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
