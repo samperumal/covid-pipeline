@@ -13,18 +13,19 @@ def download_log(blob_name = "log.json"):
 	blob_service_client = BlobServiceClient.from_connection_string(connect_str)
 	blob_client = blob_service_client.get_blob_client("covid", blob_name)
 	file_path = os.path.join(folder_path, blob_name)
-	offset = os.path.getsize(file_path) if os.path.isfile(file_path) else 0
-	length = blob_client.get_blob_properties().size - offset
+	file_size = os.path.getsize(file_path) if os.path.isfile(file_path) else 0
+	blob_size = blob_client.get_blob_properties().size
+	length = blob_size - file_size
 
 	if length <= 0: 
 		print("Blob '%s' already downloaded." % (blob_name))
 		return
 
-	print("Downloading blob '%s' at offset %d with length %d to '%s'" % (blob_name, offset, length, file_path))
+	print("Downloading blob '%s' at offset %d with length %d to '%s'" % (blob_name, file_size, length, file_path))
 
-	download_stream = blob_client.download_blob(offset, length)
+	download_stream = blob_client.download_blob(file_size, length)
 	
-	with open(file_path, "wb") as my_blob:
+	with open(file_path, "ab") as my_blob:
 		my_blob.write(download_stream.readall())
 
 	fixed_path = os.path.join(folder_path, "complete-" + blob_name)
